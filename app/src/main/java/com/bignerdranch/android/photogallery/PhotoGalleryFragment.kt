@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -19,6 +20,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+import com.squareup.picasso.Picasso
 
 private const val TAG = "PhotoGalleryFragment"
 
@@ -47,27 +49,37 @@ class PhotoGalleryFragment : Fragment() {
                 photoRecyclerView.adapter = PhotoAdapter(galleryItems)
             })
     }
-    private class PhotoHolder(itemTextView: TextView
-    )
-        : RecyclerView.ViewHolder(itemTextView)
-    {
-        val bindTitle: (CharSequence) -> Unit = itemTextView::setText
+    private class PhotoHolder(itemImageView: ImageView)
+        : RecyclerView.ViewHolder(itemImageView) {
+        val bindImageView: (ImageView) = itemImageView
     }
-    private class PhotoAdapter(private val galleryItems: List<GalleryItem>)
+
+    private inner class PhotoAdapter(private val galleryItems: List<GalleryItem>)
         : RecyclerView.Adapter<PhotoHolder>() {
+
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
         ): PhotoHolder {
-            val textView = TextView(parent.context)
-            return PhotoHolder(textView)
+            val view = layoutInflater.inflate(
+                R.layout.list_item_gallery,
+                parent,
+                false
+            ) as ImageView
+            return PhotoHolder(view)
         }
         override fun getItemCount(): Int = galleryItems.size
         override fun onBindViewHolder(holder: PhotoHolder, position: Int) {
+            lateinit var itemImageView: ImageView
             val galleryItem = galleryItems[position]
-            holder.bindTitle(galleryItem.title)
+            Picasso.get()
+                .load(galleryItem.url)
+                .placeholder(R.drawable.bill_up_close)
+                .into(holder.bindImageView)
         }
+
     }
+
     companion object {
         fun newInstance() = PhotoGalleryFragment()
     }
