@@ -15,8 +15,8 @@ object QueryPreferences {
 
     fun setStoredQuery(context: Context, query: String) {
         PreferenceManager.getDefaultSharedPreferences(context)
-            .edit {
-                putString(PREF_SEARCH_QUERY, query)
-            }
+            .edit()
+                .apply()
+
     }
 }
