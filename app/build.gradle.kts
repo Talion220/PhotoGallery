@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("androidx.navigation.safeargs")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -46,12 +48,21 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
     implementation("com.google.code.gson:gson:2.8.5")
     implementation("com.squareup.retrofit2:converter-gson:2.4.0")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("androidx.preference:preference-ktx:1.1.1")
 //    implementation("androidx.core:core-ktx:1.0.0")
     implementation("androidx.work:work-runtime:2.8.1")
     testImplementation("junit:junit:4.13.2")
+
+    implementation("androidx.fragment:fragment-ktx:1.3.6")
+    implementation("androidx.room:room-ktx:2.3.0") 
+    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
+//    implementation("com.google.devtools.ksp:symbol-processing-api:1.5.30")
+    ksp("androidx.room:room-compiler:2.6.0")
+    ksp("com.squareup.moshi:moshi-kotlin-codegen:1.13.0")
+
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
