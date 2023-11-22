@@ -16,15 +16,16 @@ class PollWorker(val context: Context, workerParams: WorkerParameters)
             QueryPreferences.getStoredQuery(context)
         val lastResultId =
             QueryPreferences.getLastResultId(context)
+        val FlickrFetchr = FlickrFetchr.get()
         val items: List<GalleryItem> = if
                                                (query.isEmpty()) {
-            FlickrFetchr().fetchPhotosRequest()
+            FlickrFetchr.fetchPhotosRequest()
                 .execute()
                 .body()
                 ?.photos
                 ?.galleryItems
         } else {
-            FlickrFetchr().searchPhotosRequest(
+            FlickrFetchr.searchPhotosRequest(
                 query)
                 .execute()
                 .body()

@@ -12,7 +12,7 @@ class PhotoInterceptor : Interceptor {
         val originalRequest: Request =
             chain.request()
         val newUrl: HttpUrl =
-            originalRequest.url().newBuilder()
+            originalRequest.url.newBuilder()
                 .addQueryParameter("api_key", API_KEY)
                 .addQueryParameter("format",
                     "json")

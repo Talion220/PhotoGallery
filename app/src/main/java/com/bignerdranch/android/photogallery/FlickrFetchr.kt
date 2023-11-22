@@ -1,5 +1,6 @@
 package com.bignerdranch.android.photogallery
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,10 +15,28 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import com.bignerdranch.android.photogallery.database.PhotoDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.Flow
+import androidx.room.Room
+import com.bignerdranch.android.photogallery.GalleryItem
+import com.bignerdranch.android.photogallery.api.SampleGalleryItem
 
 private const val TAG = "FlickrFetchr"
-class FlickrFetchr {
+private const val DATABASE_NAME = "photo-database"
+class FlickrFetchr private constructor(
+    context: Context,
+    private val coroutineScope: CoroutineScope = GlobalScope
+    ){
     private val flickrApi: FlickrApi
+    private val database: PhotoDatabase = Room
+        .databaseBuilder(
+            context.applicationContext,
+            PhotoDatabase::class.java,
+            DATABASE_NAME
+        )
+        .build()
     init {
         val client = OkHttpClient.Builder()
             .addInterceptor(PhotoInterceptor())
@@ -79,5 +98,27 @@ class FlickrFetchr {
             }
         })
         return responseLiveData
+    }
+
+    fun getPhotos(): Flow<List<SampleGalleryItem>> = database.photoDao().getPhotos()
+    suspend fun addPhoto(photo: SampleGalleryItem) {
+        database.photoDao().addPhoto(photo)
+    }
+
+    suspend fun deletePhotos() = database.photoDao().deletePhotos()
+
+
+
+    companion object {
+        private var INSTANCE: FlickrFetchr? = null
+        fun initialize(context: Context) {
+            if (INSTANCE == null) {
+                INSTANCE = FlickrFetchr(context)
+            }
+        }
+        fun get(): FlickrFetchr {
+            return INSTANCE ?:
+            throw IllegalStateException("PhotoRepository must be initialized")
+        }
     }
 }

@@ -35,6 +35,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -61,7 +64,10 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
 //    implementation("com.google.devtools.ksp:symbol-processing-api:1.5.30")
     ksp("androidx.room:room-compiler:2.6.0")
+    implementation("com.squareup.moshi:moshi:1.13.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.13.0")
     ksp("com.squareup.moshi:moshi-kotlin-codegen:1.13.0")
+    implementation("io.coil-kt:coil:2.0.0-rc02")
 
     implementation("com.squareup.moshi:moshi:1.13.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.13.0")

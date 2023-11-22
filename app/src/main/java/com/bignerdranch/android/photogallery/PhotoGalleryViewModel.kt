@@ -6,10 +6,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.Transformations
+import com.bignerdranch.android.photogallery.api.SampleGalleryItem
+import com.bignerdranch.android.photogallery.FlickrFetchr
 
 class PhotoGalleryViewModel(private val app: Application) : AndroidViewModel(app) {
     val galleryItemLiveData: LiveData<List<GalleryItem>>
-    private val flickrFetchr = FlickrFetchr()
+    private val flickrFetchr = FlickrFetchr.get()
     private val mutableSearchTerm = MutableLiveData<String>()
     val searchTerm: String
         get() = mutableSearchTerm.value ?: ""
@@ -29,4 +31,12 @@ class PhotoGalleryViewModel(private val app: Application) : AndroidViewModel(app
         QueryPreferences.setStoredQuery(app, query)
         mutableSearchTerm.value = query
     }
+    suspend fun addPhoto(photo: SampleGalleryItem) {
+        flickrFetchr.addPhoto(photo)
+    }
+
+    suspend fun deletePhotos(){
+        flickrFetchr.deletePhotos()
+    }
+
 }
