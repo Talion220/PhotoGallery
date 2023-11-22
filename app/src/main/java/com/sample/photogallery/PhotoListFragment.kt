@@ -1,4 +1,4 @@
-package com.bignerdranch.android.photogallery
+package com.sample.photogallery
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,8 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bignerdranch.android.photogallery.databinding.FragmentPhotoListBinding
-
+import com.sample.photogallery.databinding.FragmentPhotoListBinding
 import kotlinx.coroutines.launch
 
 class PhotoListFragment : Fragment() {
@@ -52,7 +51,7 @@ class PhotoListFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 photoListViewModel.photos.collect { photos ->
-                    {
+                    binding.photoRecyclerView.adapter = PhotoListViewAdapter(photos){
 
                     }
                 }

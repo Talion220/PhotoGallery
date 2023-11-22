@@ -1,4 +1,4 @@
-package com.bignerdranch.android.photogallery
+package com.sample.photogallery
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.bignerdranch.android.photogallery", appContext.packageName)
+        assertEquals("com.sample.photogallery", appContext.packageName)
     }
 }
